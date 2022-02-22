@@ -1,0 +1,63 @@
+<html>
+    <head>
+        <title>Test Page</title>
+        <script nomodule src="https://unpkg.com/@senx/discovery-widgets/dist/discovery/discovery.js"></script>
+        <script type="module" src="https://unpkg.com/@senx/discovery-widgets/dist/discovery/discovery.esm.js"></script>
+
+        <style>
+
+            body {
+                padding: 0 200px;
+                margin: 0;
+                font-size: 12px;
+                line-height: 1.52;
+                background-size: cover;
+            }
+
+            * {
+                box-sizing: border-box;
+            }
+
+            discovery-board {
+                color: transparent;
+            }
+        </style>
+    </head>
+    <body>
+        <discovery-dashboard  url="https://sandbox.senx.io/api/v0/exec">
+            {
+                'options' {
+                    'scheme' 'ATLANTIS'
+                }
+
+                'title' 'Test Page'
+                'vars' {
+                    'myVarInput' 42
+                }
+
+                'tiles' [
+                    {
+                        'type' 'input:text' 'x' 0 'y' 0 'w' 2 'h' 1
+                        'title' 'Input Emetter'
+                        'options' { 'button' { 'label' 'Send' } }
+                        'macro' <%
+                            { 'data' $myVarInput
+                            'events' [ { 'tags' [ 'random' ] 'type' 'variable' 'selector' 'myVarInput' } ] }
+                        %>
+                    }
+
+                    {
+                        'type' 'display' 'x' 2 'y' 0 'w' 2 'h' 1
+                        'title' 'Event var receiver'
+                        'options' { 'eventHandler' 'type=(variable),tag=random' }
+                        'macro' <%
+                            {
+                                'data' $myVarInput
+                            }
+                        %>
+                    }
+                ]
+            }
+        </discovery-dashboard>
+    </body>
+</html>
